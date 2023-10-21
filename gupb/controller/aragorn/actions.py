@@ -41,12 +41,14 @@ class GoToAction(Action):
 
     def perform(self, memory :Memory) -> characters.Action:
         self.facing = memory.facing
+        
         if not self.destination:
-            return characters.Action.DO_NOTHING
+            return None
         
         current_position = memory.position
+        
         if current_position == self.destination:
-            return characters.Action.DO_NOTHING
+            return None
         
         # for tile in memory.visible_tiles:
         #     if memory.visible_tiles[tile].effects is not None and memory.visible_tiles[tile].effects != []:
@@ -64,12 +66,12 @@ class GoToAction(Action):
 
         #     self.tiles[Coords(tile[0], tile[1])] = memory.visible_tiles[tile]
         
-        path = self.find_path(memory=memory, start=current_position, end=self.destination, facing = memory.facing)
+        [path, cost] = self.find_path(memory=memory, start=current_position, end=self.destination, facing = memory.facing)
 
-        if path[0] is None:
+        if path is None or len(path) <= 1:
             return None
 
-        nextCoord = path[0][1]
+        nextCoord = path[1]
         
         return self.get_action_to_move_in_path(memory, nextCoord)
 

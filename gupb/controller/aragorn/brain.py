@@ -19,7 +19,6 @@ class Brain:
         self.memory.update(knowledge)
 
         mapCenter = self.memory.map.passableCenter
-        print(mapCenter)
 
         actions = []
 
@@ -34,10 +33,10 @@ class Brain:
         for action in actions:
             ret = action.perform(self.memory)
             
-            if ret is not None:
+            if ret is not None and ret is not characters.Action.DO_NOTHING:
                 return ret
         
-        return characters.Action.DO_NOTHING
+        return characters.Action.TURN_RIGHT
     
     def reset(self, arena_description: arenas.ArenaDescription) -> None:
         self.memory.reset(arena_description)
