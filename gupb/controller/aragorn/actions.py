@@ -10,6 +10,9 @@ from random import choice
 from gupb.controller.aragorn.memory import Memory
 INFINITY: int = 99999999999
 
+from gupb.model.tiles import TileDescription
+
+
 
 class Action:
     @abstractmethod
@@ -25,12 +28,20 @@ class GoToAction(Action):
         super().__init__()
         self.destination: Coords = None 
         self.path: List[Coords] = []
+        self.dangerous_tiles: List[Coords] = []
+        self.misty_tiles: List[Coords] = []
+        self.future_dangerous_tiles: List[Coords] = []
+        self.tiles: {Coords: TileDescription} = {}
+        self.facing = characters.Facing.DOWN
+        self.good_weapon_in_sight = None
+        self.consumable_coords = None
 
 
     def setDestination(self, destination: Coords) -> None:
         self.destination = destination
 
     def perform(self, memory :Memory) -> characters.Action:
+        self.facing = memory.facing
         if not self.destination:
             return characters.Action.DO_NOTHING
         
@@ -38,6 +49,21 @@ class GoToAction(Action):
         if current_position == self.destination:
             return characters.Action.DO_NOTHING
         
+        for tile in memory.visible_tiles:
+            if memory.visible_tiles[tile].effects is not None and memory.visible_tiles[tile].effects != []:
+                if Coords(tile[0], tile[1]) not in self.misty_tiles:
+                    self.misty_tiles.append(Coords(tile[0], tile[1]))
+                if Coords(tile[0], tile[1]) not in self.dangerous_tiles:
+                    self.dangerous_tiles.append(Coords(tile[0], tile[1]))
+
+            if memory.visible_tiles[tile].consumable is not None:
+                self.consumable_coords = Coords(tile[0], tile[1])
+
+            if memory.visible_tiles[tile].loot is not None:
+                if memory.visible_tiles[tile].loot.name in ('axe', 'sword'):
+                    self.good_weapon_in_sight = Coords(tile[0], tile[1])
+
+            self.tiles[Coords(tile[0], tile[1])] = memory.visible_tiles[tile]       
         self.path = self.find_path(start=current_position, end=self.destination, facing = memory.facing)[0][1:]
         return self.get_action_to_move_in_path()
         
@@ -54,6 +80,16 @@ class GoToAction(Action):
         #         return characters.Action.TURN_RIGHT  
         #     else:
         #         return characters.Action.TURN_LEFT
+
+    def get_facing(self, f_coords: Coords) -> characters.Facing:
+        if f_coords == Coords(0, 1):
+            return characters.Facing.DOWN
+        elif f_coords == Coords(0, -1):
+            return characters.Facing.UP
+        elif f_coords == Coords(1, 0):
+            return characters.Facing.LEFT
+        elif f_coords == Coords(-1, 0):
+            return characters.Facing.RIGHT
 
     def get_action_to_move_in_path(self) -> characters.Action:
         direction = sub_coords(self.path[0], self.position)
@@ -78,7 +114,7 @@ class GoToAction(Action):
                                            ('h_cost', int),
                                            ('parent', Optional[Coords]),
                                            ('facing', characters.Facing)])
-
+        
         open_coords: [a_coords] = []
         closed_coords: {Coords: a_coords} = {}
         open_coords.append(a_coords(start, 0, get_h_cost(start, end, facing), None, facing))
@@ -90,7 +126,7 @@ class GoToAction(Action):
             open_coords = list(sorted(open_coords, key=lambda x: (x.g_cost + x.h_cost, x.h_cost), reverse=False))
             current: a_coords = open_coords.pop(0)
             closed_coords[current.coords] = current
-
+            
             if current.coords == end:
                 trace: Optional[List[Coords]] = [current.coords]
                 current_parent: Optional[a_coords] = current
@@ -111,6 +147,8 @@ class GoToAction(Action):
                                    add_coords(current.coords, (Coords(-1, 0)))]
 
             for neighbor in neighbors:
+                if (self.tiles[neighbor].type == 'land' or self.tiles[neighbor].type == 'menhir') :
+                    print("s")
                 if neighbor in self.tiles.keys()\
                         and (self.tiles[neighbor].type == 'land' or self.tiles[neighbor].type == 'menhir')\
                         and neighbor not in closed_coords.keys()\
@@ -120,6 +158,7 @@ class GoToAction(Action):
                     neighbor_g_cost = (1 if neighbor_direction == current.facing.value else
                                        3 if add_coords(neighbor_direction, current.facing.value) == Coords(0, 0) else 2) \
                                       + current.g_cost
+                    
                     neighbor_h_cost = get_h_cost(neighbor, end, self.get_facing(neighbor_direction))
 
                     for coords in open_coords:

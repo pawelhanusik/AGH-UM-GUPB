@@ -23,6 +23,7 @@ class Memory:
         self.position = knowledge.position
         self.facing = knowledge.visible_tiles[self.position].character.facing
         self.no_of_champions_alive = knowledge.no_of_champions_alive
+        self.visible_tiles = knowledge.visible_tiles
 
         for coords in knowledge.visible_tiles:
             visible_tile_description = knowledge.visible_tiles[coords]

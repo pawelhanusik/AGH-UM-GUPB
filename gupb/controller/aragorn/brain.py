@@ -21,7 +21,7 @@ class Brain:
         mapSize = self.memory.map.size
         mapCenter = coordinates.Coords(mapSize[0] / 2, mapSize[1] / 2)
 
-        actionToPerform = self.actions['goto']
+        actionToPerform = self.actions['go_to']
         actionToPerform.setDestination(mapCenter)
         
         return actionToPerform.perform(self.memory)
