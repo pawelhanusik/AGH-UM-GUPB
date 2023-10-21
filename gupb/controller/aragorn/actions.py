@@ -20,13 +20,27 @@ class Action:
         raise NotImplementedError
 
 class SpinAction(Action):
+    def __init__(self) -> None:
+        super().__init__()
+        self.spin = characters.Action.TURN_RIGHT
+    
     def perform(self, memory :Memory) -> characters.Action:
-        return characters.Action.TURN_RIGHT
+        return self.spin
+    
+    def setSpin(self, spin: characters.Action) -> None:
+        if spin not in [
+            characters.Action.TURN_RIGHT,
+            characters.Action.TURN_LEFT
+        ]:
+            return
+        
+        self.spin = spin
 
 class GoToAction(Action):
     def __init__(self) -> None:
         super().__init__()
         self.destination: Coords = None
+        self.dstFacing: characters.Facing = None
         self.dangerous_tiles: List[Coords] = []
         self.misty_tiles: List[Coords] = []
         self.future_dangerous_tiles: List[Coords] = []
@@ -39,6 +53,9 @@ class GoToAction(Action):
     def setDestination(self, destination: Coords) -> None:
         self.destination = destination
 
+    def setDestinationFacing(self, dstFacing: characters.Facing) -> None:
+        self.dstFacing = dstFacing
+
     def perform(self, memory :Memory) -> characters.Action:
         self.facing = memory.facing
         
@@ -48,6 +65,9 @@ class GoToAction(Action):
         current_position = memory.position
         
         if current_position == self.destination:
+            if self.dstFacing is not None and memory.facing != self.dstFacing:
+                # TODO: not always turning right is optimal
+                return characters.Action.TURN_RIGHT
             return None
         
         # for tile in memory.visible_tiles:
@@ -177,3 +197,7 @@ class RandomAction(Action):
         available_actions = [characters.Action.STEP_FORWARD, characters.Action.TURN_LEFT, characters.Action.TURN_RIGHT]
         random_action = choice(available_actions)
         return random_action
+
+class AttackAction(Action):
+    def perform(self, memory: Memory) -> Action:
+        return characters.Action.ATTACK

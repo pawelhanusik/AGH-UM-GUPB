@@ -1,23 +1,29 @@
 import os
 from typing import Dict, NamedTuple, Optional, List
 
-from gupb.model import arenas, tiles, coordinates, weapons
+from gupb.model import arenas, tiles, coordinates, weapons, games
 from gupb.model import characters, consumables, effects
 
 
 
 class Memory:
     def __init__(self):
+        self.idleTime = 0
         self.position: coordinates.Coords = None
         self.facing: characters.Facing = characters.Facing.random()
         no_of_champions_alive: int = 0
+        
         self.map: Map = None
+        self.environment: Environment = None
     
     def reset(self, arena_description: arenas.ArenaDescription) -> None:
+        self.idleTime = 0
         self.position: coordinates.Coords = None
         self.facing: characters.Facing = characters.Facing.random()
         no_of_champions_alive: int = 0
+
         self.map = Map.load(arena_description.name)
+        self.environment = Environment(self.map)
     
     def update(self, knowledge: characters.ChampionKnowledge) -> None:
         self.position = knowledge.position
@@ -31,6 +37,10 @@ class Memory:
             self.map.terrain[coords].character = visible_tile_description.character
             self.map.terrain[coords].consumable = self.consumableDescriptionConverter(visible_tile_description.consumable)
             self.map.terrain[coords].effects = self.effectsDescriptionConverter(visible_tile_description.effects)
+        
+        self.idleTime += 1
+        # TODO: check if environment_action is called before turn or after
+        self.environment.environment_action(self.no_of_champions_alive)
     
     def weaponDescriptionConverter(self, weaponName: str) -> weapons.Weapon:
         if weaponName == 'knife':
@@ -62,7 +72,34 @@ class Memory:
             #     convertedEffects.append(effects.WeaponCut)
         
         return convertedEffects
+    
+    def hasOponentInFront(self):
+        frontCell = coordinates.add_coords(self.position, self.facing.value)
+        
+        if frontCell in self.map.terrain and self.map.terrain[frontCell].character is not None:
+            return True
+        
+        return False
+    
+    def resetIdle(self):
+        self.idleTime = 0
 
+    def willGetIdlePenalty(self):
+        return self.idleTime > characters.PENALISED_IDLE_TIME - 1
+
+class Environment:
+    def __init__(self, map: 'Map'):
+        self.episode = 0
+        self.episodes_since_mist_increase = 0
+        self.map = map
+
+    def environment_action(self, no_of_champions_alive) -> None:
+        self.episode += 1
+        self.episodes_since_mist_increase += 1
+
+        if self.episodes_since_mist_increase >= games.MIST_TTH_PER_CHAMPION * no_of_champions_alive:
+            self.map.increase_mist()
+            self.episodes_since_mist_increase = 0
 class Map:
     def __init__(self, name: str, terrain: arenas.Terrain) -> None:
         self.name = name
@@ -70,11 +107,11 @@ class Map:
         self.size: tuple[int, int] = arenas.terrain_size(self.terrain)
         self.menhir_position: Optional[coordinates.Coords] = None
         self.mist_radius = int(self.size[0] * 2 ** 0.5) + 1
-
         self.passableCenter = self.__getPassableCenter()
+        self.hidingSpot = self.__getHidingSpot()
 
     @staticmethod
-    def load(name: str) -> arenas.Arena:
+    def load(name: str) -> 'Map':
         terrain = dict()
         arena_file_path = os.path.join('resources', 'arenas', f'{name}.gupb')
         with open(arena_file_path) as file:
@@ -89,6 +126,9 @@ class Map:
                             terrain[position].loot = arenas.WEAPON_ENCODING[character]()
         return Map(name, terrain)
     
+    def increase_mist(self) -> None:
+        self.mist_radius -= 1 if self.mist_radius > 0 else self.mist_radius
+    
     def __getPassableCenter(self) -> coordinates.Coords|None:
         mapSize = self.size
         
@@ -100,4 +140,16 @@ class Map:
                     if coordToCheck in self.terrain and self.terrain[coordToCheck].terrain_passable():
                         return coordToCheck
         
+        return None
+    
+    def __getHidingSpot(self) -> [coordinates.Coords|None,characters.Facing]:
+        if self.name == 'ordinary_chaos':
+            return coordinates.Coords(4, 9), characters.Facing.DOWN
+        
+        return None, None
+    
+    def getWeaponPos(self, weponType: weapons.Weapon):
+        if weponType == weapons.Sword:
+            return coordinates.Coords(4, 14)
+
         return None
