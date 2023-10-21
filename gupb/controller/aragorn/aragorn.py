@@ -25,4 +25,4 @@ class AragornController(controller.Controller):
 
     @property
     def preferred_tabard(self) -> characters.Tabard:
-        return characters.Tabard.YELLOW
+        return characters.Tabard.ARAGORN
