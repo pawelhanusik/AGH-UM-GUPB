@@ -17,7 +17,13 @@ class Brain:
 
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.memory.update(knowledge)
-        actionToPerform = self.actions['go_to']
+
+        mapSize = self.memory.map.size
+        mapCenter = coordinates.Coords(mapSize[0] / 2, mapSize[1] / 2)
+
+        actionToPerform = self.actions['goto']
+        actionToPerform.setDestination(mapCenter)
+        
         return actionToPerform.perform(self.memory)
     
     def reset(self, arena_description: arenas.ArenaDescription) -> None:
