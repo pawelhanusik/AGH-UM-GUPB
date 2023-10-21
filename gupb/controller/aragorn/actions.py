@@ -26,12 +26,11 @@ class SpinAction(Action):
 class GoToAction(Action):
     def __init__(self) -> None:
         super().__init__()
-        self.destination: Coords = None 
-        self.path: List[Coords] = []
+        self.destination: Coords = None
         self.dangerous_tiles: List[Coords] = []
         self.misty_tiles: List[Coords] = []
         self.future_dangerous_tiles: List[Coords] = []
-        self.tiles: {Coords: TileDescription} = {}
+        # self.tiles: {Coords: TileDescription} = {}
         self.facing = characters.Facing.DOWN
         self.good_weapon_in_sight = None
         self.consumable_coords = None
@@ -49,37 +48,30 @@ class GoToAction(Action):
         if current_position == self.destination:
             return characters.Action.DO_NOTHING
         
-        for tile in memory.visible_tiles:
-            if memory.visible_tiles[tile].effects is not None and memory.visible_tiles[tile].effects != []:
-                if Coords(tile[0], tile[1]) not in self.misty_tiles:
-                    self.misty_tiles.append(Coords(tile[0], tile[1]))
-                if Coords(tile[0], tile[1]) not in self.dangerous_tiles:
-                    self.dangerous_tiles.append(Coords(tile[0], tile[1]))
+        # for tile in memory.visible_tiles:
+        #     if memory.visible_tiles[tile].effects is not None and memory.visible_tiles[tile].effects != []:
+        #         if Coords(tile[0], tile[1]) not in self.misty_tiles:
+        #             self.misty_tiles.append(Coords(tile[0], tile[1]))
+        #         if Coords(tile[0], tile[1]) not in self.dangerous_tiles:
+        #             self.dangerous_tiles.append(Coords(tile[0], tile[1]))
 
-            if memory.visible_tiles[tile].consumable is not None:
-                self.consumable_coords = Coords(tile[0], tile[1])
+        #     if memory.visible_tiles[tile].consumable is not None:
+        #         self.consumable_coords = Coords(tile[0], tile[1])
 
-            if memory.visible_tiles[tile].loot is not None:
-                if memory.visible_tiles[tile].loot.name in ('axe', 'sword'):
-                    self.good_weapon_in_sight = Coords(tile[0], tile[1])
+        #     if memory.visible_tiles[tile].loot is not None:
+        #         if memory.visible_tiles[tile].loot.name in ('axe', 'sword'):
+        #             self.good_weapon_in_sight = Coords(tile[0], tile[1])
 
-            self.tiles[Coords(tile[0], tile[1])] = memory.visible_tiles[tile]       
-        self.path = self.find_path(start=current_position, end=self.destination, facing = memory.facing)[0][1:]
-        return self.get_action_to_move_in_path()
+        #     self.tiles[Coords(tile[0], tile[1])] = memory.visible_tiles[tile]
         
-        # x_diff = self.destination.x - current_position.x
-        # y_diff = self.destination.y - current_position.y
+        path = self.find_path(memory=memory, start=current_position, end=self.destination, facing = memory.facing)
 
-        # if abs(x_diff) > abs(y_diff):
-        #     if x_diff > 0:
-        #         return characters.Action.STEP_FORWARD  
-        #     else:
-        #         return characters.Action.TURN_LEFT  
-        # else:
-        #     if y_diff > 0:
-        #         return characters.Action.TURN_RIGHT  
-        #     else:
-        #         return characters.Action.TURN_LEFT
+        if path[0] is None:
+            return None
+
+        nextCoord = path[0][1]
+        
+        return self.get_action_to_move_in_path(memory, nextCoord)
 
     def get_facing(self, f_coords: Coords) -> characters.Facing:
         if f_coords == Coords(0, 1):
@@ -91,17 +83,17 @@ class GoToAction(Action):
         elif f_coords == Coords(-1, 0):
             return characters.Facing.RIGHT
 
-    def get_action_to_move_in_path(self) -> characters.Action:
-        direction = sub_coords(self.path[0], self.position)
+    def get_action_to_move_in_path(self, memory: Memory, destination: Coords) -> characters.Action:
+        direction = sub_coords(destination, memory.position)
+
         if direction == self.facing.value:
-            self.path.pop(0)
             return characters.Action.STEP_FORWARD
         elif direction == self.facing.turn_left().value:
             return characters.Action.TURN_LEFT
         else:
             return characters.Action.TURN_RIGHT
     
-    def find_path(self, start: Coords, end: Coords, facing: characters.Facing, dangerous=False, risky=False) -> (Optional[List[Coords]], int):
+    def find_path(self, memory: Memory, start: Coords, end: Coords, facing: characters.Facing, dangerous=False, risky=False) -> (Optional[List[Coords]], int):
         def get_h_cost(h_start: Coords, h_end: Coords, h_facing: characters.Facing) -> int:
             distance: int = abs(h_end.y - h_start.y) + abs(h_end.x - h_start.x)
             direction: Coords = Coords(1 if h_end.x - h_start.x > 0 else -1 if h_end.x - h_start.x < 0 else 0,
@@ -119,10 +111,9 @@ class GoToAction(Action):
         closed_coords: {Coords: a_coords} = {}
         open_coords.append(a_coords(start, 0, get_h_cost(start, end, facing), None, facing))
 
-        risky_path = None if risky else self.find_path(start, end, facing, dangerous, True)
+        risky_path = None if risky else self.find_path(memory, start, end, facing, dangerous, True)
 
         while len(open_coords) > 0:
-
             open_coords = list(sorted(open_coords, key=lambda x: (x.g_cost + x.h_cost, x.h_cost), reverse=False))
             current: a_coords = open_coords.pop(0)
             closed_coords[current.coords] = current
@@ -147,10 +138,11 @@ class GoToAction(Action):
                                    add_coords(current.coords, (Coords(-1, 0)))]
 
             for neighbor in neighbors:
-                if (self.tiles[neighbor].type == 'land' or self.tiles[neighbor].type == 'menhir') :
-                    print("s")
-                if neighbor in self.tiles.keys()\
-                        and (self.tiles[neighbor].type == 'land' or self.tiles[neighbor].type == 'menhir')\
+                if not neighbor in memory.map.terrain:
+                    continue
+
+                if neighbor in memory.map.terrain.keys()\
+                        and memory.map.terrain[neighbor].terrain_passable()\
                         and neighbor not in closed_coords.keys()\
                         and (dangerous or neighbor not in self.dangerous_tiles)\
                         and (risky or neighbor not in self.future_dangerous_tiles):
@@ -173,7 +165,7 @@ class GoToAction(Action):
         if not risky:
             return risky_path
         if not dangerous:
-            return self.find_path(start, end, facing, True, True)
+            return self.find_path(memory, start, end, facing, True, True)
         trace: Optional[List[Coords]] = None
         return trace, INFINITY
 

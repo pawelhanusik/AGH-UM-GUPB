@@ -71,6 +71,8 @@ class Map:
         self.menhir_position: Optional[coordinates.Coords] = None
         self.mist_radius = int(self.size[0] * 2 ** 0.5) + 1
 
+        self.passableCenter = self.__getPassableCenter()
+
     @staticmethod
     def load(name: str) -> arenas.Arena:
         terrain = dict()
@@ -85,4 +87,17 @@ class Map:
                         elif character in arenas.WEAPON_ENCODING:
                             terrain[position] = tiles.Land()
                             terrain[position].loot = arenas.WEAPON_ENCODING[character]()
-        return arenas.Arena(name, terrain)
+        return Map(name, terrain)
+    
+    def __getPassableCenter(self) -> coordinates.Coords|None:
+        mapSize = self.size
+        
+        for r in range(mapSize[0] // 2):
+            for x in range(mapSize[0] // 2 - r, mapSize[0] // 2 + r + 1):
+                for y in range(mapSize[1] // 2 - r, mapSize[1] // 2 + r + 1):
+                    coordToCheck = coordinates.Coords(x, y)
+
+                    if coordToCheck in self.terrain and self.terrain[coordToCheck].terrain_passable():
+                        return coordToCheck
+        
+        return None

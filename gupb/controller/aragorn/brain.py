@@ -18,13 +18,26 @@ class Brain:
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.memory.update(knowledge)
 
-        mapSize = self.memory.map.size
-        mapCenter = coordinates.Coords(mapSize[0] / 2, mapSize[1] / 2)
+        mapCenter = self.memory.map.passableCenter
+        print(mapCenter)
 
-        actionToPerform = self.actions['go_to']
-        actionToPerform.setDestination(mapCenter)
+        actions = []
+
+        if mapCenter is not None:
+            goToAction = self.actions['go_to']
+            goToAction.setDestination(mapCenter)
+            actions.append(goToAction)
+
+        spinAction = self.actions['spin']
+        actions.append(spinAction)
         
-        return actionToPerform.perform(self.memory)
+        for action in actions:
+            ret = action.perform(self.memory)
+            
+            if ret is not None:
+                return ret
+        
+        return characters.Action.DO_NOTHING
     
     def reset(self, arena_description: arenas.ArenaDescription) -> None:
         self.memory.reset(arena_description)
