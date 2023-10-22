@@ -23,6 +23,7 @@ class Brain:
         actions = []
         dstFacing = None
 
+
         # ---
 
         if self.memory.willGetIdlePenalty():
