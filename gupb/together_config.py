@@ -18,10 +18,10 @@ from gupb.scripts import arena_generator
 
 CONFIGURATION = {
     # 'arenas': arena_generator.generate_arenas(50, arena_generator.random_size_generator()),
-    # 'arenas': [ 'generated_' + str(i) for i in range(50) ],
-    'arenas': [
-        'generated_46',
-    ],
+    'arenas': [ 'generated_' + str(i) for i in range(50) ],
+    # 'arenas': [
+    #     'generated_46',
+    # ],
     
     'controllers': [
         alpha_gupb.AlphaGUPB("AlphaGUPB"), #
@@ -57,7 +57,7 @@ CONFIGURATION = {
     # ],
 
     'start_balancing': False,
-    'visualise': True,
+    'visualise': False,
     'profiling_metrics': ['total', 'avg'],
     'show_sight': False,
     'runs_no': 10,
