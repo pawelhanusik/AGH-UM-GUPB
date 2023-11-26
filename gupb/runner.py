@@ -90,7 +90,9 @@ class Runner:
         FinalScoresReport(scores_to_log).log(logging.INFO)
 
         if self.profiling_metrics:
-            for func in PROFILE_RESULTS.keys():
+            orderedProfiling = dict(sorted(PROFILE_RESULTS.items(), key=lambda item: sum(item[1]), reverse=True))
+            
+            for func in orderedProfiling.keys():
                 print_stats(func, **{m: True for m in self.profiling_metrics})
 
     @staticmethod

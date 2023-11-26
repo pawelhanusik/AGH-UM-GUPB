@@ -172,19 +172,34 @@ class Renderer:
 
         time_to_cycle = self._time_to_cycle(game)
         self.clock.tick()
+        isPaused = False
+
+        new_size = self.sprite_repository.scale_sprites((800, 800), game.arena.size)
+        self.screen = pygame.display.set_mode(new_size, pygame.RESIZABLE)
+
         while not game.finished:
-            self.time_passed += self.clock.tick()
-            if self.time_passed >= time_to_cycle:
-                self.time_passed -= time_to_cycle
-                game.cycle()
-                self._render(game, show_sight)
-                time_to_cycle = self._time_to_cycle(game)
+            if not isPaused:
+                self.time_passed += self.clock.tick()
+                if self.time_passed >= time_to_cycle:
+                    self.time_passed -= time_to_cycle
+                    game.cycle()
+                    self._render(game, show_sight)
+                    time_to_cycle = self._time_to_cycle(game)
+            else:
+                self.clock.tick()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     return
                 elif event.type == pygame.KEYDOWN and keyboard_controller:
                     keyboard_controller.register(event.key)
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+                    isPaused = not isPaused
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_o:
+                    for cid in range(len(game.champions)):
+                        if game.champions[cid].controller.name == 'Aragorn':
+                            game.champions[cid].health += 8
+                            break
                 if event.type == pygame.VIDEORESIZE:
                     new_size = self.sprite_repository.scale_sprites((event.w, event.h), game.arena.size)
                     self.screen = pygame.display.set_mode(new_size, pygame.RESIZABLE)

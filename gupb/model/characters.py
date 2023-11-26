@@ -56,6 +56,18 @@ class Tabard(Enum):
     PIKACHU = 'Pikachu'
     R2D2 = 'R2D2'
 
+def full_stack():
+    import traceback, sys
+    exc = sys.exc_info()[0]
+    stack = traceback.extract_stack()[:-1]  # last one would be full_stack()
+    if exc is not None:  # i.e. an exception is present
+        del stack[-1]       # remove call of full_stack, the printed exception
+                            # will contain the caught exception caller instead
+    trc = 'Traceback (most recent call last):\n'
+    stackstr = trc + ''.join(traceback.format_list(stack))
+    if exc is not None:
+         stackstr += '  ' + traceback.format_exc().lstrip(trc)
+    return stackstr
 
 class Champion:
     def __init__(self, starting_position: coordinates.Coords, arena: arenas.Arena) -> None:
@@ -118,6 +130,11 @@ class Champion:
                     return Action.DO_NOTHING
                 return action
             except Exception as e:
+                if self.verbose_name() == "Aragorn":
+                    print(repr(e))
+                    print(full_stack())
+                    raise e
+
                 verbose_logger.warning(f"Controller {self.verbose_name()} throw an unexpected exception: {repr(e)}.")
                 controller.ControllerExceptionReport(self.verbose_name(), repr(e)).log(logging.WARN)
                 return Action.DO_NOTHING
