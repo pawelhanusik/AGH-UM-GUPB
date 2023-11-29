@@ -18,7 +18,7 @@ from gupb.scripts import arena_generator
 
 CONFIGURATION = {
     # 'arenas': arena_generator.generate_arenas(50, arena_generator.random_size_generator()),
-    'arenas': [ 'generated_' + str(i) for i in range(50) ],
+    'arenas': [ 'generated_' + str(i) for i in range(250) ],
     # 'arenas': [
     #     'generated_46',
     # ],
