@@ -5,9 +5,9 @@ name: Get scores
 
 on:
   push:
-    branches: [ "aragorn" ]
+    branches: [ "testing" ]
   pull_request:
-    branches: [ "aragorn" ]
+    branches: [ "testing" ]
 
 jobs:
   build:
