@@ -30,11 +30,11 @@ CONFIGURATION = {
         cynamonka.CynamonkaController("Cynamonka"), #
         forrest_gump.ForrestGumpController("Forrest Gump"), #
         # frog.FrogController('Frog'),
-        # krombopulos.KrombopulosMichaelController(), #
+        krombopulos.KrombopulosMichaelController(), #
         maly_konik.MalyKonik("LittlePonny"), #
         mongolek.Mongolek('Mongolek'), #
         pat_i_kot.PatIKotController("Kot i Pat"), #
-        # r2d2.RecklessRoamingDancingDruid("R2D2"),
+        r2d2.RecklessRoamingDancingDruid("R2D2"),
         roger.Roger('1'), #
         random.RandomController("Alice"),
     ],
