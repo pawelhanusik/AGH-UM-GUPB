@@ -2,7 +2,7 @@ from gupb.controller import alpha_gupb
 from gupb.controller import ancymon
 from gupb.controller import aragorn
 from gupb.controller import ares
-# from gupb.controller import batman
+from gupb.controller import batman
 from gupb.controller import bob
 from gupb.controller import cynamonka
 from gupb.controller import forrest_gump
@@ -19,34 +19,32 @@ from gupb.scripts import arena_generator
 aragornController = aragorn.AragornController("AragornController")
 
 CONFIGURATION = {
-    'arenas': [
-        'testing_plains',
-    ],
+    # 'arenas': ['testing_plains',],
+    'arenas': [ 'generated_' + str(i) for i in range(250) ],
     
     'controllers': [
-        # alpha_gupb.AlphaGUPB("AlphaGUPB"), #
-        # ancymon.AncymonController("Ancymon"), #
-        # aragorn.AragornController("AragornController"), #
-        # ares.AresController("Ares"), #
-        # bob.FSMBot(),
-        # batman.BatmanHeuristicsController('Batman'),
-        # cynamonka.CynamonkaController("Cynamonka"), #
-        # forrest_gump.ForrestGumpController("Forrest Gump"), #
-        # frog.FrogController('Frog'),
-        # krombopulos.KrombopulosMichaelController(), #
-        # maly_konik.MalyKonik("LittlePonny"), #
-        # mongolek.Mongolek('Mongolek'), #
-        # pat_i_kot.PatIKotController("Kot i Pat"), #
-        # r2d2.RecklessRoamingDancingDruid("R2D2"),
-        # roger.Roger('1'), #
-        # random.RandomController("Alice"),
+        alpha_gupb.AlphaGUPB("AlphaGUPB"), #
+        ancymon.AncymonController("Ancymon"), #
+        ares.AresController("Ares"), #
+        bob.FSMBot(),
+        batman.BatmanHeuristicsController('Batman'),
+        cynamonka.CynamonkaController("Cynamonka"), #
+        forrest_gump.ForrestGumpController("Forrest Gump"), #
+        frog.FrogController('Frog'),
+        krombopulos.KrombopulosMichaelController(), #
+        maly_konik.MalyKonik("LittlePonny"), #
+        mongolek.Mongolek('Mongolek'), #
+        pat_i_kot.PatIKotController("Kot i Pat"), #
+        r2d2.RecklessRoamingDancingDruid("R2D2"),
+        roger.Roger('1'), #
+        random.RandomController("Alice"),
         
         aragornController,
-        random.RandomController("Alice_0"),
+        # random.RandomController("Alice_0"),
     ],
     
     # 'controllers': [
-    #     aragorn.AragornController("AragornController"),
+    #     aragornController,
     #     random.RandomController("Alice_0"),
     #     random.RandomController("Alice_1"),
     #     random.RandomController("Alice_2"),
@@ -67,6 +65,6 @@ CONFIGURATION = {
 
     # True - step by step, False - run without stopping, 'Aragorn' - step by step only for Aragorn
     'step_mode': 'Aragorn',
-    'end_if_one_left': False,
-    'spawn_fog': False,
+    # 'end_if_one_left': False,
+    # 'spawn_fog': False,
 }
