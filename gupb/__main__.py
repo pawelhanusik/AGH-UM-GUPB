@@ -16,6 +16,7 @@ import questionary
 
 from gupb import controller
 from gupb import runner
+from gupb import global_vars
 
 
 # noinspection PyUnresolvedReferences
@@ -178,6 +179,7 @@ def main(config_path: str, inquiry: bool, log_directory: str) -> None:
     configure_logging(log_directory)
     current_config = load_initial_config(config_path)
     current_config = configuration_inquiry(current_config) if inquiry else current_config
+    global_vars.step_mode = current_config['step_mode'] if 'step_mode' in current_config else False
     game_runner = runner.Runner(current_config)
     game_runner.run()
     game_runner.print_scores()

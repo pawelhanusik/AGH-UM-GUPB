@@ -13,6 +13,7 @@ from gupb.model import coordinates
 from gupb.model import consumables
 from gupb.model import tiles
 from gupb.model import weapons
+from gupb import global_vars
 
 verbose_logger = logging.getLogger('verbose')
 
@@ -124,6 +125,13 @@ class Champion:
             knowledge = ChampionKnowledge(self.position, self.arena.no_of_champions_alive, visible_tiles)
             try:
                 action = self.controller.decide(knowledge)
+                
+                # ===
+                if global_vars.step_mode:
+                    print("Champion", self.verbose_name(), "picked action", action)
+                    input("Press Enter to continue...")
+                # ===
+
                 if action is None:
                     verbose_logger.warning(f"Controller {self.verbose_name()} returned a non-action.")
                     controller.ControllerExceptionReport(self.verbose_name(), "a non-action returned").log(logging.WARN)
