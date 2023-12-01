@@ -127,7 +127,7 @@ class Champion:
                 action = self.controller.decide(knowledge)
                 
                 # ===
-                if global_vars.step_mode:
+                if global_vars.step_mode == True or global_vars.step_mode == self.controller.name:
                     print("Champion", self.verbose_name(), "picked action", action)
                     input("Press Enter to continue...")
                 # ===

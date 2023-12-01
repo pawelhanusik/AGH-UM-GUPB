@@ -65,7 +65,8 @@ CONFIGURATION = {
     'show_sight': aragornController,
     'runs_no': 10,
 
-    'step_mode': False,
+    # True - step by step, False - run without stopping, 'Aragorn' - step by step only for Aragorn
+    'step_mode': 'Aragorn',
     'end_if_one_left': False,
     'spawn_fog': False,
 }
