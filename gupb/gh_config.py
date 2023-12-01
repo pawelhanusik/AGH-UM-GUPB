@@ -1,3 +1,4 @@
+import random as py_random
 from gupb.controller import alpha_gupb
 from gupb.controller import ancymon
 from gupb.controller import aragorn
@@ -18,7 +19,7 @@ from gupb.scripts import arena_generator
 
 CONFIGURATION = {
     # 'arenas': arena_generator.generate_arenas(50, arena_generator.random_size_generator()),
-    'arenas': [ 'generated_' + str(i) for i in range(250) ],
+    'arenas': [ 'generated_' + str(i+py_random.randint(0, 200)) for i in range(50) ],
     'controllers': [
         alpha_gupb.AlphaGUPB("AlphaGUPB"), #
         ancymon.AncymonController("Ancymon"), #
