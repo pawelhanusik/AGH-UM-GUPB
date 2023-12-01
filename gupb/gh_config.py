@@ -56,5 +56,5 @@ CONFIGURATION = {
     'visualise': False,
     'profiling_metrics': ['total', 'avg'],
     'show_sight': False,
-    'runs_no': 100,
+    'runs_no': 1000,
 }
