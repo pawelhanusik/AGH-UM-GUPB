@@ -12,6 +12,7 @@ from gupb.logger import core as logger_core
 from gupb.model import arenas
 from gupb.model import characters
 from gupb.model import coordinates
+from gupb import global_vars
 
 verbose_logger = logging.getLogger('verbose')
 
@@ -90,7 +91,7 @@ class Game(statemachine.StateMachine):
         self.episodes_since_mist_increase += 1
         verbose_logger.debug(f"Starting episode {self.episode}.")
         EpisodeStartReport(self.episode).log(logging.DEBUG)
-        if self.episodes_since_mist_increase >= MIST_TTH_PER_CHAMPION * len(self.champions):
+        if self.episodes_since_mist_increase >= MIST_TTH_PER_CHAMPION * len(self.champions) and global_vars.spawn_fog:
             self.arena.increase_mist()
             self.episodes_since_mist_increase = 0
 
@@ -115,7 +116,7 @@ class Game(statemachine.StateMachine):
             if win_callable and callable(win_callable):
                 win_callable()
 
-        if not self.champions:
+        if not self.champions and global_vars.end_if_one_left:
             self.finished = True
 
     def _champion_action(self) -> None:

@@ -180,6 +180,8 @@ def main(config_path: str, inquiry: bool, log_directory: str) -> None:
     current_config = load_initial_config(config_path)
     current_config = configuration_inquiry(current_config) if inquiry else current_config
     global_vars.step_mode = current_config['step_mode'] if 'step_mode' in current_config else False
+    global_vars.end_if_one_left = current_config['end_if_one_left'] if 'end_if_one_left' in current_config else True
+    global_vars.spawn_fog = current_config['spawn_fog'] if 'spawn_fog' in current_config else True
     game_runner = runner.Runner(current_config)
     game_runner.run()
     game_runner.print_scores()

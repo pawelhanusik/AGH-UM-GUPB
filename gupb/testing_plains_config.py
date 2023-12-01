@@ -16,6 +16,8 @@ from gupb.controller import roger
 from gupb.controller import r2d2
 from gupb.scripts import arena_generator
 
+aragornController = aragorn.AragornController("AragornController")
+
 CONFIGURATION = {
     'arenas': [
         'testing_plains',
@@ -39,7 +41,7 @@ CONFIGURATION = {
         # roger.Roger('1'), #
         # random.RandomController("Alice"),
         
-        aragorn.AragornController("AragornController"),
+        aragornController,
         random.RandomController("Alice_0"),
     ],
     
@@ -59,8 +61,11 @@ CONFIGURATION = {
 
     'start_balancing': False,
     'visualise': True,
-    'step_mode': False,
     'profiling_metrics': ['total', 'avg'],
-    'show_sight': False,
+    'show_sight': aragornController,
     'runs_no': 10,
+
+    'step_mode': False,
+    'end_if_one_left': False,
+    'spawn_fog': False,
 }
