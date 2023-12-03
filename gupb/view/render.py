@@ -13,6 +13,7 @@ from gupb.model import effects
 from gupb.model import games
 from gupb.model import tiles
 from gupb.model import weapons
+from gupb import global_vars
 
 pygame.init()
 
@@ -285,6 +286,10 @@ class Renderer:
             dark = pygame.Surface(self.sprite_repository.size, pygame.SRCALPHA)
             dark.fill((0, 0, 0, int(darken_percent * 255)))
             visible = game.arena.visible_coords(show_sight)
+            
+            if global_vars.visible_tiles_func is not None:
+                visible = global_vars.visible_tiles_func(visible)
+            
             for i, j in game.arena.terrain:
                 if (i, j) not in visible:
                     blit_destination = (i * self.sprite_repository.size[0], j * self.sprite_repository.size[1])

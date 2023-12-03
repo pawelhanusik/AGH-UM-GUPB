@@ -18,53 +18,64 @@ from gupb.scripts import arena_generator
 
 aragornController = aragorn.AragornController("AragornController")
 
+controllers_all = [
+    alpha_gupb.AlphaGUPB("AlphaGUPB"), #
+    ancymon.AncymonController("Ancymon"), #
+    ares.AresController("Ares"), #
+    bob.FSMBot(),
+    batman.BatmanHeuristicsController('Batman'),
+    cynamonka.CynamonkaController("Cynamonka"), #
+    forrest_gump.ForrestGumpController("Forrest Gump"), #
+    frog.FrogController('Frog'),
+    krombopulos.KrombopulosMichaelController(), #
+    maly_konik.MalyKonik("LittlePonny"), #
+    mongolek.Mongolek('Mongolek'), #
+    pat_i_kot.PatIKotController("Kot i Pat"), #
+    r2d2.RecklessRoamingDancingDruid("R2D2"),
+    roger.Roger('1'), #
+    random.RandomController("Alice"),
+    
+    aragornController,
+]
+
+controllers_random = [
+    aragornController,
+    random.RandomController("Alice_0"),
+    random.RandomController("Alice_1"),
+    random.RandomController("Alice_2"),
+    random.RandomController("Alice_3"),
+    random.RandomController("Alice_4"),
+    random.RandomController("Alice_5"),
+    random.RandomController("Alice_6"),
+    random.RandomController("Alice_7"),
+    random.RandomController("Alice_8"),
+    random.RandomController("Alice_9"),
+]
+
+controllers_strongest = [
+    aragornController,
+    roger.Roger('1'),
+    ancymon.AncymonController("Ancymon"),
+]
+
 CONFIGURATION = {
     # 'arenas': ['testing_plains',],
     'arenas': [ 'generated_' + str(i) for i in range(250) ],
     
-    'controllers': [
-        alpha_gupb.AlphaGUPB("AlphaGUPB"), #
-        ancymon.AncymonController("Ancymon"), #
-        ares.AresController("Ares"), #
-        bob.FSMBot(),
-        batman.BatmanHeuristicsController('Batman'),
-        cynamonka.CynamonkaController("Cynamonka"), #
-        forrest_gump.ForrestGumpController("Forrest Gump"), #
-        frog.FrogController('Frog'),
-        krombopulos.KrombopulosMichaelController(), #
-        maly_konik.MalyKonik("LittlePonny"), #
-        mongolek.Mongolek('Mongolek'), #
-        pat_i_kot.PatIKotController("Kot i Pat"), #
-        r2d2.RecklessRoamingDancingDruid("R2D2"),
-        roger.Roger('1'), #
-        random.RandomController("Alice"),
-        
-        aragornController,
-        # random.RandomController("Alice_0"),
-    ],
-    
-    # 'controllers': [
-    #     aragornController,
-    #     random.RandomController("Alice_0"),
-    #     random.RandomController("Alice_1"),
-    #     random.RandomController("Alice_2"),
-    #     random.RandomController("Alice_3"),
-    #     random.RandomController("Alice_4"),
-    #     random.RandomController("Alice_5"),
-    #     random.RandomController("Alice_6"),
-    #     random.RandomController("Alice_7"),
-    #     random.RandomController("Alice_8"),
-    #     random.RandomController("Alice_9"),
-    # ],
+    'controllers': [ aragornController, ],
+    # 'controllers': controllers_all,
+    # 'controllers': controllers_random,
+    # 'controllers': controllers_strongest,
 
     'start_balancing': False,
     'visualise': True,
     'profiling_metrics': ['total', 'avg'],
     'show_sight': aragornController,
+    'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].seen ],
     'runs_no': 10,
 
     # True - step by step, False - run without stopping, 'Aragorn' - step by step only for Aragorn
     'step_mode': 'Aragorn',
-    # 'end_if_one_left': False,
-    # 'spawn_fog': False,
+    'end_if_one_left': False,
+    'spawn_fog': False,
 }
