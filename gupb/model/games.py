@@ -105,7 +105,7 @@ class Game(statemachine.StateMachine):
                 self.deaths.append(death)
                 self.arena.no_of_champions_alive -= 1
         self.champions = alive
-        if len(self.champions) == 1:
+        if len(self.champions) == 1 and global_vars.end_if_one_left:
             verbose_logger.debug(f"Champion {self.champions[0].controller.name} was the last one standing.")
             LastManStandingReport(self.champions[0].controller.name).log(logging.DEBUG)
             champion = self.champions.pop()
