@@ -63,8 +63,8 @@ CONFIGURATION = {
     # 'arenas': [ 'generated_' + str(i) for i in range(250) ],
     'arenas': ['generated_1',],
     
-    'controllers': [ aragornController, ],
-    # 'controllers': controllers_all,
+    # 'controllers': [ aragornController, ],
+    'controllers': controllers_all,
     # 'controllers': controllers_random,
     # 'controllers': controllers_strongest,
 
@@ -78,6 +78,6 @@ CONFIGURATION = {
 
     # True - step by step, False - run without stopping, 'Aragorn' - step by step only for Aragorn
     # 'step_mode': 'Aragorn',
-    'end_if_one_left': False,
-    'spawn_fog': False,
+    # 'end_if_one_left': False,
+    # 'spawn_fog': False,
 }
