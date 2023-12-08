@@ -77,7 +77,7 @@ CONFIGURATION = {
     'runs_no': 10,
 
     # True - step by step, False - run without stopping, 'Aragorn' - step by step only for Aragorn
-    # 'step_mode': 'Aragorn',
+    'step_mode': 'Aragorn',
     'end_if_one_left': False,
     'spawn_fog': False,
 }
