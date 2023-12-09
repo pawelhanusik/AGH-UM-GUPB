@@ -16,9 +16,11 @@ from gupb.controller import roger
 from gupb.controller import r2d2
 from gupb.scripts import arena_generator
 
+
+
 CONFIGURATION = {
-    'arenas': arena_generator.generate_arenas(50, arena_generator.random_size_generator()),
-    # 'arenas': [ 'generated_' + str(i) for i in range(250) ],
+    # 'arenas': arena_generator.generate_arenas(10, arena_generator.random_size_generator()),
+    'arenas': [ 'generated_' + str(i) for i in range(10) ],
     # 'arenas': [
     #     'generated_46',
     # ],
@@ -32,7 +34,7 @@ CONFIGURATION = {
         # batman.BatmanHeuristicsController('Batman'),
         cynamonka.CynamonkaController("Cynamonka"), #
         forrest_gump.ForrestGumpController("Forrest Gump"), #
-        # frog.FrogController('Frog'),
+        frog.FrogController('Frog'),
         krombopulos.KrombopulosMichaelController(), #
         maly_konik.MalyKonik("LittlePonny"), #
         mongolek.Mongolek('Mongolek'), #
@@ -57,8 +59,8 @@ CONFIGURATION = {
     # ],
 
     'start_balancing': False,
-    'visualise': True,
+    'visualise': False,
     'profiling_metrics': ['total', 'avg'],
     'show_sight': False,
-    'runs_no': 10,
+    'runs_no': 100,
 }
