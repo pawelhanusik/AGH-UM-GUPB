@@ -60,8 +60,8 @@ controllers_strongest = [
 
 CONFIGURATION = {
     # 'arenas': ['testing_plains',],
-    # 'arenas': [ 'generated_' + str(i) for i in range(250) ],
-    'arenas': ['generated_1',],
+    'arenas': [ 'generated_' + str(i) for i in range(250) ],
+    # 'arenas': ['generated_1',],
     
     # 'controllers': [ aragornController, ],
     'controllers': controllers_all,
@@ -71,9 +71,16 @@ CONFIGURATION = {
     'start_balancing': False,
     'visualise': True,
     'profiling_metrics': ['total', 'avg'],
+    
+    ### SIGHT
     # 'show_sight': aragornController,
+    ## tiles that were ever seen
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].seen ],
+    ## debug tiles (for example, pathfinding)
     # 'visible_tiles_func': lambda visible_coords: aragornController.brain.memory.debugCoords if aragornController.brain.memory.debugCoords is not None else visible_coords,
+    ## loot tiles
+    # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].loot is not None ],
+    
     'runs_no': 10,
 
     # True - step by step, False - run without stopping, 'Aragorn' - step by step only for Aragorn
