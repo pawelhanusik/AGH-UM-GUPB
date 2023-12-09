@@ -15,7 +15,7 @@ class AragornController(controller.Controller):
         return self.brain.decide(knowledge)
 
     def praise(self, score: int) -> None:
-        print("ARAGORN BRAIN WHOLE TIME", self.brain.wholeTime)
+        pass
 
     def reset(self, game_no: int, arena_description: arenas.ArenaDescription) -> None:
         self.brain.reset(arena_description)
