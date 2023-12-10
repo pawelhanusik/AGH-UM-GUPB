@@ -19,21 +19,21 @@ from gupb.scripts import arena_generator
 
 
 CONFIGURATION = {
-    # 'arenas': arena_generator.generate_arenas(10, arena_generator.random_size_generator()),
-    'arenas': [ 'generated_' + str(i) for i in range(10) ],
+    # 'arenas': arena_generator.generate_arenas(50, arena_generator.random_size_generator()),
+    'arenas': [ 'generated_' + str(i) for i in range(50) ],
     # 'arenas': [
     #     'generated_46',
     # ],
     
     'controllers': [
-        alpha_gupb.AlphaGUPB("AlphaGUPB"), #
+        # alpha_gupb.AlphaGUPB("AlphaGUPB"), #
         ancymon.AncymonController("Ancymon"), #
         aragorn.AragornController("AragornController"),
         ares.AresController("Ares"), #
         bob.FSMBot(),
-        batman.BatmanHeuristicsController('Batman'),
+        # batman.BatmanHeuristicsController('Batman'),
         cynamonka.CynamonkaController("Cynamonka"), #
-        forrest_gump.ForrestGumpController("Forrest Gump"), #
+        # forrest_gump.ForrestGumpController("Forrest Gump"), #
         # frog.FrogController('Frog'),
         mongolek.Mongolek('Mongolek'), #
         maly_konik.MalyKonik("LittlePonny"), #

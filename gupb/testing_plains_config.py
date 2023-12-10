@@ -82,8 +82,7 @@ CONFIGURATION = {
     ## loot tiles
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].loot is not None ],
     ## enemies simulation
-    # 'visible_tiles_func': lambda visible_coords: [ coords for coords in [ possibleTiles for enemyName,possibleTiles in aragornController.brain.memory.map.enemiesPositionsApproximation.enemies.items() ] ],
-    'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.enemiesPositionsApproximation.getEnemiesTiles() ],
+    # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.enemiesPositionsApproximation.getEnemiesTiles() ],
     
     'runs_no': 10,
 
