@@ -12,3 +12,4 @@ WEAPON_HIERARCHY = {
     "amulet" : 5,
     "knife" : 2
 }
+#
