@@ -25,7 +25,7 @@ CONFIGURATION = {
     #     'generated_46',
     # ],
     
-    'controllers_all': [
+    'controllers': [
         alpha_gupb.AlphaGUPB("AlphaGUPB"), #
         ancymon.AncymonController("Ancymon"), #
         aragorn.AragornController("AragornController"),
