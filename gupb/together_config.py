@@ -2,7 +2,7 @@ from gupb.controller import alpha_gupb
 from gupb.controller import ancymon
 from gupb.controller import aragorn
 from gupb.controller import ares
-# from gupb.controller import batman
+from gupb.controller import batman
 from gupb.controller import bob
 from gupb.controller import cynamonka
 from gupb.controller import forrest_gump
@@ -25,23 +25,23 @@ CONFIGURATION = {
     #     'generated_46',
     # ],
     
-    'controllers': [
+    'controllers_all': [
         alpha_gupb.AlphaGUPB("AlphaGUPB"), #
         ancymon.AncymonController("Ancymon"), #
-        aragorn.AragornController("AragornController"), #
+        aragorn.AragornController("AragornController"),
         ares.AresController("Ares"), #
         bob.FSMBot(),
-        # batman.BatmanHeuristicsController('Batman'),
+        batman.BatmanHeuristicsController('Batman'),
         cynamonka.CynamonkaController("Cynamonka"), #
         forrest_gump.ForrestGumpController("Forrest Gump"), #
-        frog.FrogController('Frog'),
-        krombopulos.KrombopulosMichaelController(), #
-        maly_konik.MalyKonik("LittlePonny"), #
+        # frog.FrogController('Frog'),
         mongolek.Mongolek('Mongolek'), #
+        maly_konik.MalyKonik("LittlePonny"), #
         pat_i_kot.PatIKotController("Kot i Pat"), #
         r2d2.RecklessRoamingDancingDruid("R2D2"),
         roger.Roger('1'), #
         random.RandomController("Alice"),
+        krombopulos.KrombopulosMichaelController(), #
     ],
     
     # 'controllers': [
