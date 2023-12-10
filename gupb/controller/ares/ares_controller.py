@@ -1,6 +1,8 @@
 from gupb import controller
 from gupb.model import arenas
 from gupb.model import characters
+from gupb.model.profiling import profile
+
 
 from gupb.controller.ares.ares_base import KnowledgeBase
 
@@ -19,6 +21,7 @@ class AresController(controller.Controller):
     def __hash__(self) -> int:
         return hash(self.first_name)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.knBase.update(knowledge)
         action = self.knBase.choice()

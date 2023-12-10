@@ -9,6 +9,7 @@ from gupb.model import arenas, weapons, coordinates, effects
 from gupb.model import characters
 from gupb.model.characters import Action, CHAMPION_STARTING_HP
 from gupb.model.coordinates import Coords
+from gupb.model.profiling import profile
 
 POSSIBLE_ACTIONS = [
     Action.TURN_LEFT,
@@ -65,6 +66,7 @@ class Mongolek(controller.Controller):
     def __hash__(self) -> int:
         return hash(self.first_name)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.move_number += 1
         position = knowledge.position

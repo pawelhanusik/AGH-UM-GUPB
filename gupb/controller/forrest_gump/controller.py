@@ -4,6 +4,7 @@ from gupb.controller import Controller
 from gupb.controller.forrest_gump.strategies import *
 from gupb.controller.forrest_gump.utils import CharacterInfo, manhattan_distance_to
 from gupb.model import arenas, characters, coordinates
+from gupb.model.profiling import profile
 
 
 class ForrestGumpController(Controller):
@@ -26,6 +27,7 @@ class ForrestGumpController(Controller):
     def __hash__(self) -> int:
         return hash(self.first_name)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         character_info = CharacterInfo(
             position=knowledge.position,

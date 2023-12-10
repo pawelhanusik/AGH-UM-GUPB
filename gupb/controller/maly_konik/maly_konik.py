@@ -8,6 +8,8 @@ from .mapa import Mapa
 from .strategie import FirstStrategy
 from .utils import CHAMPION_STARTING_HP, ACTIONS
 from typing import Optional
+from gupb.model.profiling import profile
+
 
 
 # Zglaszam! Straz jest ale nie gasi.
@@ -69,6 +71,7 @@ class MalyKonik(controller.Controller):
                 case _:
                     raise ValueError(f'No Weapon named {weapon_name} found')
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.__update_myself(knowledge)
         self.map.read_information(knowledge, self.weapon_name)

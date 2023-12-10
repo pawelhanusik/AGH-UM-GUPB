@@ -1,6 +1,7 @@
 from gupb import controller
 from .game_service import GameService
 from gupb.model import characters, arenas
+from gupb.model.profiling import profile
 
 
 class FrogController(controller.Controller):
@@ -14,6 +15,7 @@ class FrogController(controller.Controller):
     def reset(self, game_no: int, arena_description: arenas.ArenaDescription) -> None:
         self.game_service = GameService(arena_description)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         return self.game_service.get_action(knowledge)
 

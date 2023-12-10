@@ -12,6 +12,7 @@ from gupb.model import characters
 from gupb.model.arenas import Arena
 from gupb.model.characters import ChampionKnowledge
 from gupb.model.coordinates import Coords
+from gupb.model.profiling import profile
 
 
 from .r2d2_state_machine import R2D2StateMachine
@@ -110,6 +111,7 @@ class RecklessRoamingDancingDruid(controller.Controller):
 
         return False
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.counter += 1
         try:

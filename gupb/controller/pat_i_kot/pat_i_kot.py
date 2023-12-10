@@ -4,6 +4,7 @@ from gupb.model import coordinates
 from gupb.model import arenas
 from gupb.controller.pat_i_kot import analyze_map
 from gupb.controller.pat_i_kot import analyze_weapon
+from gupb.model.profiling import profile
 
 WEAPON_WITH_WEIGHTS = {
     'knife': 2,
@@ -60,6 +61,7 @@ class PatIKotController:
             if self.arena.terrain[coords].passable:
                 self.possible_menhir_coords.append(coords)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         position = knowledge.position
         visible_tiles = knowledge.visible_tiles

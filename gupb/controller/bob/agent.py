@@ -8,6 +8,8 @@ from gupb.model import weapons, tiles
 from gupb.model.arenas import ArenaDescription
 from gupb.model.coordinates import Coords
 from gupb.model.tiles import TileDescription
+from gupb.model.profiling import profile
+
 
 # Random comment as we did not change anything
 # Once again
@@ -110,6 +112,7 @@ class FSMBot(Controller):
                 return True
         return False
 
+    @profile
     def decide(self, knowledge: ChampionKnowledge) -> Action:
         champ_pos = knowledge.position
         self.champ_data = knowledge.visible_tiles[champ_pos].character

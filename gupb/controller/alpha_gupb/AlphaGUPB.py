@@ -12,6 +12,8 @@ from gupb.controller.alpha_gupb.combat.combat import attackable_tiles, attack_en
 from gupb.model import arenas
 
 from collections import defaultdict
+from gupb.model.profiling import profile
+
 
 POSSIBLE_ACTIONS = [
     characters.Action.TURN_RIGHT,
@@ -273,6 +275,7 @@ class AlphaGUPB(controller.Controller):
     def __hash__(self) -> int:
         return hash(self.first_name)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.update_knowledge(knowledge.visible_tiles)
         self.alive_champions = knowledge.no_of_champions_alive

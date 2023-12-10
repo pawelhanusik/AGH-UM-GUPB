@@ -15,6 +15,7 @@ from gupb.model import arenas, coordinates
 from gupb.model import characters
 from gupb.model.coordinates import Coords
 from gupb.model.tiles import Land, Menhir
+from gupb.model.profiling import profile
 
 
 # noinspection PyUnusedLocal
@@ -42,6 +43,7 @@ class Roger(controller.Controller):
     def __hash__(self) -> int:
         return hash(self._id)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.repair_knowledge(knowledge)
         self.update_state(knowledge)

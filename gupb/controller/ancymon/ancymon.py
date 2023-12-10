@@ -10,6 +10,8 @@ from gupb.controller.ancymon.strategies.item_finder import Item_Finder
 from gupb.controller.ancymon.strategies.path_finder import Path_Finder
 from gupb.controller.ancymon.strategies.decision_enum import HUNTER_DECISION, ITEM_FINDER_DECISION, EXPLORER_DECISION
 from gupb.model.weapons import Knife
+from gupb.model.profiling import profile
+
 
 POSSIBLE_ACTIONS = [
     characters.Action.TURN_LEFT,
@@ -37,6 +39,7 @@ class AncymonController(controller.Controller):
     def __hash__(self) -> int:
         return hash(self.first_name)
 
+    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.environment.update_environment(knowledge)
         self.path_finder.update_paths(self.environment.position)
