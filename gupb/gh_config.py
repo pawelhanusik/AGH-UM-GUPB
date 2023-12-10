@@ -26,7 +26,7 @@ CONFIGURATION = {
         aragorn.AragornController("AragornController"),
         ares.AresController("Ares"), #
         bob.FSMBot(),
-        batman.BatmanHeuristicsController('Batman'),
+        # batman.BatmanHeuristicsController('Batman'),
         cynamonka.CynamonkaController("Cynamonka"), #
         forrest_gump.ForrestGumpController("Forrest Gump"), #
         # frog.FrogController('Frog'),
