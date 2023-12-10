@@ -465,6 +465,7 @@ class RageAttackAction(AttackClosestEnemyAction):
         'AlphaGUPB',
         'Cynamonka',
         'Roger_1',
+        'Ancymon',
     ]
 
     def getClosestEnemy(self, memory: Memory):
