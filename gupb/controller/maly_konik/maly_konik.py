@@ -12,6 +12,7 @@ from gupb.model.profiling import profile
 
 
 
+
 # Zglaszam! Straz jest ale nie gasi.
 class MalyKonik(controller.Controller):
 

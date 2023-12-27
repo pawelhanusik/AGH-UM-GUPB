@@ -9,6 +9,8 @@ from .meta_strategies import MetaStrategy, ExploreHideRunMetaStrat
 from gupb.model.profiling import profile
 
 
+# nothing changed for v5
+
 class KrombopulosMichaelController(controller.Controller):
     """
     Oh boy, here I go killing again!

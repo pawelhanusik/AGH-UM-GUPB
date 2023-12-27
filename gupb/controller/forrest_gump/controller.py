@@ -6,7 +6,6 @@ from gupb.controller.forrest_gump.utils import CharacterInfo, manhattan_distance
 from gupb.model import arenas, characters, coordinates
 from gupb.model.profiling import profile
 
-
 class ForrestGumpController(Controller):
     def __init__(self, first_name: str) -> None:
         self.first_name = first_name

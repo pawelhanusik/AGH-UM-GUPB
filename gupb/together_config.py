@@ -26,22 +26,22 @@ CONFIGURATION = {
     # ],
     
     'controllers': [
-        # alpha_gupb.AlphaGUPB("AlphaGUPB"), #
-        ancymon.AncymonController("Ancymon"), #
+        alpha_gupb.AlphaGUPB("AlphaGUPB"),
+        ancymon.AncymonController("Ancymon"),
         aragorn.AragornController("AragornController"),
         ares.AresController("Ares"), #
         bob.FSMBot(),
-        # batman.BatmanHeuristicsController('Batman'),
-        cynamonka.CynamonkaController("Cynamonka"), #
-        # forrest_gump.ForrestGumpController("Forrest Gump"), #
+        batman.BatmanHeuristicsController('Batman'),
+        cynamonka.CynamonkaController("Cynamonka"),
+        forrest_gump.ForrestGumpController("Forrest Gump"),
         # frog.FrogController('Frog'),
-        mongolek.Mongolek('Mongolek'), #
-        maly_konik.MalyKonik("LittlePonny"), #
-        pat_i_kot.PatIKotController("Kot i Pat"), #
-        r2d2.RecklessRoamingDancingDruid("R2D2"),
-        roger.Roger('1'), #
+        krombopulos.KrombopulosMichaelController(),
+        maly_konik.MalyKonik("LittlePonny"),
+        mongolek.Mongolek('Mongolek'),
+        pat_i_kot.PatIKotController("Kot i Pat"),
         random.RandomController("Alice"),
-        krombopulos.KrombopulosMichaelController(), #
+        r2d2.RecklessRoamingDancingDruid("R2D2"),
+        roger.Roger('1'),
     ],
     
     # 'controllers': [
