@@ -462,8 +462,12 @@ class AttackClosestEnemyAction(Action):
 
 class RageAttackAction(AttackClosestEnemyAction):
     HAPPY_NEW_YEAR = [
-        53254780140597,
-        16210931983372679264624916789,
+        # 53254780140597,
+        # 16210931983372679264624916789,
+        
+        47403228639173111709310103423398415522718923899712,
+        912483974970427094311,
+        14461117651760316,
     ]
     rage_attack_bots = None
 
@@ -652,6 +656,27 @@ class TakeToOnesLegsAction(Action):
         ]
         safeTiles = {}
 
+        farAwayCoords = memory.getSectionCenterPos(memory.getOppositeSection())
+        path,cost = pathfinding.find_path(memory=memory, start=memory.position, end=farAwayCoords, facing=memory.facing, useAllMovements=True)
+
+        destinationsGenerator = utils.aroundTileGenerator(farAwayCoords)
+        limit = 25
+
+        while path is None and limit > 0:
+            limit -= 1
+            
+            try:
+                farAwayCoords = destinationsGenerator.__next__()
+            except StopIteration:
+                pass
+
+            path,cost = pathfinding.find_path(memory=memory, start=memory.position, end=farAwayCoords, facing=memory.facing, useAllMovements=True)
+        
+        if cost is not None and cost is not INFINITY and len(path) >= 2:
+            goFarAwayCoord = path[1]
+        else:
+            goFarAwayCoord = None
+
         for coords in possibleTiles:
             if not self.isTileGood(coords, memory, dangerousTiles):
                 continue
@@ -659,6 +684,8 @@ class TakeToOnesLegsAction(Action):
             safeTiles[coords] = self.howManySafeTilesAround(coords, memory, dangerousTiles, True)
             
             safeTiles[coords] -= self.getTileSuspiciousness(memory, coords)
+
+            safeTiles[coords] += 3 if goFarAwayCoord == coords else 0
 
         # get coords from safeTiles key with maximum value
         maxSafeTile = None
