@@ -6,7 +6,7 @@ from gupb.model.profiling import profile
 
 from gupb.controller.ares.ares_base import KnowledgeBase
 
-
+# adding the same version
 class AresController(controller.Controller):
 
     def __init__(self, first_name: str):

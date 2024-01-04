@@ -8,8 +8,12 @@ from .knowledge_sources import KnowledgeSources
 from .meta_strategies import MetaStrategy, ExploreHideRunMetaStrat
 from gupb.model.profiling import profile
 
+# happy new year
+# nothing changed for this version of Krombopulos
 
 # nothing changed for v5
+
+# nothing changed
 
 class KrombopulosMichaelController(controller.Controller):
     """
@@ -24,7 +28,7 @@ class KrombopulosMichaelController(controller.Controller):
 
         self.knowledge_sources: KnowledgeSources = KnowledgeSources(own_name=self._name)
         self.meta_strategy: MetaStrategy = self._get_initial_meta_strategy()
-    
+
     @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         """What happens at every turn."""

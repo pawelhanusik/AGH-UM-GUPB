@@ -143,7 +143,7 @@ class Champion:
                     print(full_stack())
                     raise e
 
-                verbose_logger.warning(f"Controller {self.verbose_name()} throw an unexpected exception: {repr(e)}.")
+                verbose_logger.warning(f"Controller {self.verbose_name()} throw an unexpected exception: {repr(e)}. {e.__traceback__}")
                 controller.ControllerExceptionReport(self.verbose_name(), repr(e)).log(logging.WARN)
                 return Action.DO_NOTHING
         else:

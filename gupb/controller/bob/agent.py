@@ -12,8 +12,7 @@ from gupb.model.profiling import profile
 
 
 # Random comment as we did not change anything
-# Once again
-# Next round
+# Round 6
 
 POSSIBLE_RANDOM_ACTIONS = [
     Action.TURN_LEFT,
