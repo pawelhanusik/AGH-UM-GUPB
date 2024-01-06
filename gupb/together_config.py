@@ -16,7 +16,14 @@ from gupb.controller import roger
 from gupb.controller import r2d2
 from gupb.scripts import arena_generator
 
+import os
+x = 1920 - 600
+y = 0
+os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
 
+
+
+aragornController = aragorn.AragornController("AragornController")
 
 CONFIGURATION = {
     # 'arenas': arena_generator.generate_arenas(50, arena_generator.random_size_generator()),
@@ -28,7 +35,7 @@ CONFIGURATION = {
     'controllers': [
         alpha_gupb.AlphaGUPB("AlphaGUPB"),
         ancymon.AncymonController("Ancymon"),
-        aragorn.AragornController("AragornController"),
+        aragornController,
         ares.AresController("Ares"), #
         bob.FSMBot(),
         batman.BatmanHeuristicsController('Batman'),
@@ -40,7 +47,7 @@ CONFIGURATION = {
         mongolek.Mongolek('Mongolek'),
         pat_i_kot.PatIKotController("Kot i Pat"),
         random.RandomController("Alice"),
-        # r2d2.RecklessRoamingDancingDruid("R2D2"),
+        r2d2.RecklessRoamingDancingDruid("R2D2"),
         roger.Roger('1'),
     ],
     
@@ -63,4 +70,12 @@ CONFIGURATION = {
     'profiling_metrics': ['total', 'avg'],
     'show_sight': False,
     'runs_no': 100,
+
+    'show_sight': aragornController,
+    # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.getDangerousTilesWithDangerSourcePos(aragornController.brain.memory.tick, 3) ],
+    # # DEBUG
+    # 'visible_tiles_func': lambda visible_coords: aragornController.brain.memory.debugCoords if aragornController.brain.memory.debugCoords is not None else [],
+    # # loot tiles
+    'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].loot is not None ],
+
 }
