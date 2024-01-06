@@ -90,19 +90,21 @@ CONFIGURATION = {
     # 'controllers': controllers_strongest,
 
     'start_balancing': False,
-    'visualise': True,
+    'visualise': False,
     'profiling_metrics': ['total', 'avg'],
     
     ### SIGHT
     'show_sight': aragornController,
     ## tiles that were ever seen
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].seen ],
-    ## debug tiles (for example, pathfinding)
-    'visible_tiles_func': lambda visible_coords: aragornController.brain.memory.debugCoords if aragornController.brain.memory.debugCoords is not None else [],
+    ## DEBUG TILES (for example, pathfinding)
+    # 'visible_tiles_func': lambda visible_coords: aragornController.brain.memory.debugCoords if aragornController.brain.memory.debugCoords is not None else [],
     ## loot tiles
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].loot is not None ],
     ## enemies simulation
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.enemiesPositionsApproximation.getEnemiesTiles() ],
+    ## DANGEROUS TILES:
+    'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.getDangerousTilesWithDangerSourcePos(aragornController.brain.memory.tick) ],
     
     'runs_no': 100,
 
@@ -111,8 +113,8 @@ CONFIGURATION = {
     # 'end_if_one_left': False,
     # 'spawn_fog': False,
 
-    'weapons': {
-        'Aragorn': weapons.Amulet,
-        '__all__': weapons.Amulet,
-    }
+    # 'weapons': {
+    #     'Aragorn': weapons.Amulet,
+    #     '__all__': weapons.Amulet,
+    # }
 }
