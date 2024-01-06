@@ -16,10 +16,10 @@ from gupb.controller import roger
 from gupb.controller import r2d2
 from gupb.scripts import arena_generator
 
-import os
-x = 1920 - 600
-y = 0
-os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
+# import os
+# x = 1920 - 600
+# y = 0
+# os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
 
 
 
@@ -52,7 +52,7 @@ CONFIGURATION = {
     ],
     
     # 'controllers': [
-    #     aragorn.AragornController("AragornController"),
+    #     aragornController,
     #     random.RandomController("Alice_0"),
     #     random.RandomController("Alice_1"),
     #     random.RandomController("Alice_2"),
