@@ -65,8 +65,14 @@ class Brain:
         self.update_state()
 
         # select actions depending on state
-            
-        strategy: Strategy = self.strategies[self.state]
+        
+        strategyNumber = self.state
+        
+        if strategyNumber in self.strategies:
+            strategy: Strategy = self.strategies[strategyNumber]
+        else:
+            strategy: Strategy = Strategy()
+
         
         # pick action & perform it
 
