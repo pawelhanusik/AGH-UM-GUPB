@@ -183,6 +183,7 @@ def main(config_path: str, inquiry: bool, log_directory: str) -> None:
     global_vars.end_if_one_left = current_config['end_if_one_left'] if 'end_if_one_left' in current_config else True
     global_vars.spawn_fog = current_config['spawn_fog'] if 'spawn_fog' in current_config else True
     global_vars.visible_tiles_func = current_config['visible_tiles_func'] if 'visible_tiles_func' in current_config else None
+    global_vars.weapons = current_config['weapons'] if 'weapons' in current_config else {}
     game_runner = runner.Runner(current_config)
     game_runner.run()
     game_runner.print_scores()

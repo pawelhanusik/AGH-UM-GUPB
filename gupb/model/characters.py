@@ -87,6 +87,11 @@ class Champion:
         self.controller = assigned_controller
         self.tabard = self.controller.preferred_tabard
 
+        if self.controller.name in global_vars.weapons:
+            self.weapon = global_vars.weapons[self.controller.name]()
+        elif '__all__' in global_vars.weapons:
+            self.weapon = global_vars.weapons['__all__']()
+
     def description(self) -> ChampionDescription:
         return ChampionDescription(self.controller.name, self.health, self.weapon.description(), self.facing)
 
