@@ -26,7 +26,7 @@ os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % (x,y)
 aragornController = aragorn.AragornController("AragornController")
 
 CONFIGURATION = {
-    # 'arenas': arena_generator.generate_arenas(50, arena_generator.random_size_generator()),
+    # 'arenas': arena_generator.generate_arenas(250, arena_generator.random_size_generator()),
     'arenas': [ 'generated_' + str(i) for i in range(50) ],
     # 'arenas': [
     #     'generated_46',
@@ -66,16 +66,16 @@ CONFIGURATION = {
     # ],
 
     'start_balancing': False,
-    'visualise': True,
+    'visualise': False,
     'profiling_metrics': ['total', 'avg'],
     'show_sight': False,
     'runs_no': 100,
 
-    'show_sight': aragornController,
+    # 'show_sight': aragornController,
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.getDangerousTilesWithDangerSourcePos(aragornController.brain.memory.tick, 3) ],
     # # DEBUG
     # 'visible_tiles_func': lambda visible_coords: aragornController.brain.memory.debugCoords if aragornController.brain.memory.debugCoords is not None else [],
     # # loot tiles
-    'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].loot is not None ],
+    # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].loot is not None ],
 
 }
