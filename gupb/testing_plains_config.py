@@ -1,3 +1,4 @@
+from gupb.model import weapons
 from gupb.controller import alpha_gupb
 from gupb.controller import ancymon
 from gupb.controller import aragorn
@@ -14,6 +15,7 @@ from gupb.controller import pat_i_kot
 from gupb.controller import random
 from gupb.controller import roger
 from gupb.controller import r2d2
+from gupb.controller import keyboard
 from gupb.scripts import arena_generator
 
 aragornController = aragorn.AragornController("AragornController")
@@ -60,12 +62,30 @@ controllers_strongest = [
 
 
 CONFIGURATION = {
-    # 'arenas': ['testing_plains',],
-    'arenas': [ 'generated_' + str(i) for i in range(250) ],
+    'arenas': ['testing_plains',],
+    # 'arenas': [ 'generated_' + str(i) for i in range(50) ],
     # 'arenas': ['generated_1',],
     
-    # 'controllers': [ aragornController, ],
-    'controllers': controllers_all,
+    'controllers': [
+        #                                     BEZ | SNEAKY
+        aragornController,
+        # keyboard.KeyboardController(),
+        # alpha_gupb.AlphaGUPB("AlphaGUPB"),# 9 2
+        ancymon.AncymonController("Ancymon"), # 55 47
+        # ares.AresController("Ares"), # 8 8
+        # bob.FSMBot(), # 1 1
+        # batman.BatmanHeuristicsController('Batman'), # 65 56
+        # cynamonka.CynamonkaController("Cynamonka"), # 8 1
+        # forrest_gump.ForrestGumpController("Forrest Gump"), # X X
+        # krombopulos.KrombopulosMichaelController(), # 3 2
+        # maly_konik.MalyKonik("LittlePonny"), # 42 42
+        # mongolek.Mongolek('Mongolek'), # 2 6
+        # pat_i_kot.PatIKotController("Kot i Pat"), # 0 0
+        # random.RandomController("Alice"), # 1 1
+        # # r2d2.RecklessRoamingDancingDruid("R2D2"),
+        # roger.Roger('1'), # 2 0
+    ],
+    # 'controllers': controllers_all,
     # 'controllers': controllers_random,
     # 'controllers': controllers_strongest,
 
@@ -78,16 +98,21 @@ CONFIGURATION = {
     ## tiles that were ever seen
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].seen ],
     ## debug tiles (for example, pathfinding)
-    # 'visible_tiles_func': lambda visible_coords: aragornController.brain.memory.debugCoords if aragornController.brain.memory.debugCoords is not None else visible_coords,
+    'visible_tiles_func': lambda visible_coords: aragornController.brain.memory.debugCoords if aragornController.brain.memory.debugCoords is not None else [],
     ## loot tiles
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.terrain if aragornController.brain.memory.map.terrain[coords].loot is not None ],
     ## enemies simulation
     # 'visible_tiles_func': lambda visible_coords: [ coords for coords in aragornController.brain.memory.map.enemiesPositionsApproximation.getEnemiesTiles() ],
     
-    'runs_no': 10,
+    'runs_no': 100,
 
     # True - step by step, False - run without stopping, 'Aragorn' - step by step only for Aragorn
     # 'step_mode': 'Aragorn',
     # 'end_if_one_left': False,
     # 'spawn_fog': False,
+
+    'weapons': {
+        'Aragorn': weapons.Amulet,
+        '__all__': weapons.Amulet,
+    }
 }

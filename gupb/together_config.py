@@ -40,7 +40,7 @@ CONFIGURATION = {
         mongolek.Mongolek('Mongolek'),
         pat_i_kot.PatIKotController("Kot i Pat"),
         random.RandomController("Alice"),
-        r2d2.RecklessRoamingDancingDruid("R2D2"),
+        # r2d2.RecklessRoamingDancingDruid("R2D2"),
         roger.Roger('1'),
     ],
     
@@ -59,7 +59,7 @@ CONFIGURATION = {
     # ],
 
     'start_balancing': False,
-    'visualise': False,
+    'visualise': True,
     'profiling_metrics': ['total', 'avg'],
     'show_sight': False,
     'runs_no': 100,
