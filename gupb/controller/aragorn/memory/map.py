@@ -7,7 +7,8 @@ from gupb.model import characters, consumables, effects
 from gupb.model.profiling import profile
 
 from gupb.controller.aragorn import utils
-from gupb.controller.aragorn.constants import DEBUG, INFINITY
+from gupb.controller.aragorn.constants import DEBUG, INFINITY, SPOOF_VULNERABLE
+from gupb.controller.aragorn import name
 
 from .menhir_calculator import MenhirCalculator
 from .enemies_positions_approximation import EnemiesPositionsApproximation
@@ -101,8 +102,8 @@ class Map:
         return visible
     
     @profile
-    def parseVisibleTiles(self, visibleTiles: Dict[coordinates.Coords, tiles.Tile], currentTick :int) -> None:
-        self.enemiesPositionsApproximation.update(visibleTiles, currentTick)
+    def parseVisibleTiles(self, visibleTiles: Dict[coordinates.Coords, tiles.Tile], currentTick: int, myPosition: coordinates.Coords) -> None:
+        self.enemiesPositionsApproximation.update(visibleTiles, currentTick, myPosition)
         
         for coords in visibleTiles:
             visible_tile_description = visibleTiles[coords]
@@ -253,6 +254,10 @@ class Map:
                 enemyDescription is not None
                 and coords != self.memory.position
                 and enemyDescription.controller_name not in NOT_DANGEROUS_OPPONENTS
+                and not (
+                    enemyDescription.controller_name == name.get_current_name()
+                    and enemyDescription.controller_name in SPOOF_VULNERABLE
+                )
             ):
                 weapon = Map.weaponDescriptionConverter(enemyDescription.weapon)
 

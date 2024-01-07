@@ -7,7 +7,7 @@ from gupb.model import effects
 
 from gupb.controller.aragorn.memory import Memory
 from gupb.controller.aragorn import utils
-from gupb.controller.aragorn.constants import DEBUG, DEBUG2, INFINITY, OUR_BOT_NAME, USE_PF_CACHE, OPTIMIZE_PF
+from gupb.controller.aragorn.constants import DEBUG, DEBUG2, INFINITY, USE_PF_CACHE, OPTIMIZE_PF
 
 cache = {}
 
@@ -186,7 +186,6 @@ def find_path(
             if (
                 neighbor in memory.map.terrain.keys()
                 and memory.map.terrain[neighbor].terrain_passable()
-                # and (memory.map.terrain[neighbor].character is None or memory.map.terrain[neighbor].character.controller_name == OUR_BOT_NAME) # check if enemy is not in the way
                 and neighbor not in closed_coords.keys()
             ):
                 neighbor_g_cost = 1 + current.g_cost + tile_cost(memory, neighbor)

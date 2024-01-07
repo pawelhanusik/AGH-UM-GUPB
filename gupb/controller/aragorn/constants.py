@@ -1,4 +1,3 @@
-OUR_BOT_NAME = 'Aragorn'
 DEBUG = False
 DEBUG2 = False
 USE_PF_CACHE = True
@@ -13,3 +12,12 @@ WEAPON_HIERARCHY = {
     "amulet" : 5,
     "knife" : 2
 }
+SPOOF_NAME = True
+SPOOF_VULNERABLE = [
+    'AlphaGUPB',
+    'Ancymon',
+    'AresControllerNike',
+    'Mongolek',
+    'Frog',
+    'CynamonkaController3',
+]

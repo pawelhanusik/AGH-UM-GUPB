@@ -6,7 +6,8 @@ from gupb.controller.aragorn.actions import *
 from .strategy import *
 from gupb.controller.aragorn import utils
 from gupb.controller.aragorn import pathfinding
-from gupb.controller.aragorn.constants import DEBUG, DEBUG2, INFINITY, OUR_BOT_NAME
+from gupb.controller.aragorn.constants import DEBUG, DEBUG2, INFINITY, SPOOF_NAME
+from gupb.controller.aragorn import name
 
 import time
 
@@ -58,6 +59,28 @@ class Brain:
 
         actionIndexPerformed = 0
 
+        # fake name
+        if SPOOF_NAME:
+            try:
+                closestEnemyCoords, closestEnemyDistance = AttackClosestEnemyAction().getClosestEnemy(self.memory)
+
+                if (
+                    closestEnemyDistance < 5
+
+                    and knowledge.no_of_champions_alive > 3
+                    and self.memory.health > 4
+
+                    and closestEnemyCoords is not None
+                    and closestEnemyCoords in self.memory.map.terrain
+                    and self.memory.map.terrain[closestEnemyCoords].character is not None
+                ):
+                    closestEnemyName = self.memory.map.terrain[closestEnemyCoords].character.controller_name
+                    name.set_fake_name(closestEnemyName)
+                else:
+                    name.restore_name()
+            except Exception:
+                name.restore_name()
+
         # update memory
 
         pathfinding.invalidate_PF_cache()
@@ -76,7 +99,6 @@ class Brain:
             strategy: Strategy = self.strategies[strategyNumber]
         else:
             strategy: Strategy = Strategy()
-
         
         # pick action & perform it
 

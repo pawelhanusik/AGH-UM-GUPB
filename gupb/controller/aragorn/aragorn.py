@@ -1,11 +1,13 @@
 from collections import defaultdict
+import inspect
 
 from gupb import controller
 from gupb.model import arenas, coordinates, weapons
 from gupb.model import characters
 
 from gupb.controller.aragorn.brain import Brain
-from gupb.controller.aragorn.constants import OUR_BOT_NAME
+from gupb.controller.aragorn import name
+from gupb.controller.aragorn.constants import SPOOF_NAME
 
 
 class AragornController(controller.Controller):
@@ -35,7 +37,13 @@ class AragornController(controller.Controller):
     
     @property
     def name(self) -> str:
-        return OUR_BOT_NAME
+        if SPOOF_NAME:
+            callerName = inspect.stack()[1].function
+
+            if callerName == 'pick_action':
+                return name.get_current_name()
+
+        return name.OUR_BOT_NAME
 
     @property
     def preferred_tabard(self) -> characters.Tabard:

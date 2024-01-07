@@ -66,7 +66,7 @@ class Memory:
         self.weaponDescription = knowledge.visible_tiles[self.position].character.weapon
         self.no_of_champions_alive = knowledge.no_of_champions_alive
 
-        self.map.parseVisibleTiles(knowledge.visible_tiles, self.tick)
+        self.map.parseVisibleTiles(knowledge.visible_tiles, self.tick, self.position)
 
         self.numberOfVisibleTiles = len(knowledge.visible_tiles)
         

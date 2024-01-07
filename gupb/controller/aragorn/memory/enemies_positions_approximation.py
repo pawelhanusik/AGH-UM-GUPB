@@ -2,8 +2,6 @@ from typing import Dict, List
 
 from gupb.model import characters, coordinates, tiles
 
-from gupb.controller.aragorn.constants import DEBUG, OUR_BOT_NAME
-
 
 
 class EnemiesPositionsApproximation:
@@ -34,8 +32,8 @@ class EnemiesPositionsApproximation:
         # ===
         del self.enemies[enemyName]
 
-    def update(self, visibleTiles: Dict[coordinates.Coords, tiles.Tile], crurentTick :int):
-        self.parseVisibleTiles(visibleTiles, crurentTick)
+    def update(self, visibleTiles: Dict[coordinates.Coords, tiles.Tile], crurentTick: int, myPosition: coordinates.Coords):
+        self.parseVisibleTiles(visibleTiles, crurentTick, myPosition)
     
     def whereCanOneGoFrom(self, coords: coordinates.Coords) -> List[coordinates.Coords]:
         neighbours = []
@@ -48,7 +46,7 @@ class EnemiesPositionsApproximation:
         
         return neighbours
 
-    def parseVisibleTiles(self, visibleTiles: Dict[coordinates.Coords, tiles.Tile], tick: int) -> None:
+    def parseVisibleTiles(self, visibleTiles: Dict[coordinates.Coords, tiles.Tile], tick: int, myPosition: coordinates.Coords) -> None:
         # remove enemies with low probability
         enemiesToRemove = []
 
@@ -81,7 +79,7 @@ class EnemiesPositionsApproximation:
         for coords in visibleTiles:
             visible_tile_description = visibleTiles[coords]
             
-            if visible_tile_description.character is not None and visible_tile_description.character.controller_name != OUR_BOT_NAME:
+            if visible_tile_description.character is not None and coords != myPosition:
                 # enemy found
                 enemyName = visible_tile_description.character.controller_name
 
