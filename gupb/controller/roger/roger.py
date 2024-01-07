@@ -14,14 +14,13 @@ from gupb.controller.roger.utils import get_distance
 from gupb.model import arenas, coordinates
 from gupb.model import characters
 from gupb.model.coordinates import Coords
-from gupb.model.tiles import Land, Menhir
-from gupb.model.profiling import profile
+from gupb.model.tiles import Land, Menhir, Forest
 
 
 # noinspection PyUnusedLocal
 # noinspection PyMethodMayBeStatic
 class Roger(controller.Controller):
-    # v5
+    # v7
     def __init__(self, _id: str):
         self._id = _id
         self.current_position: Optional[coordinates.Coords] = None
@@ -43,7 +42,6 @@ class Roger(controller.Controller):
     def __hash__(self) -> int:
         return hash(self._id)
 
-    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         self.repair_knowledge(knowledge)
         self.update_state(knowledge)

@@ -6,7 +6,6 @@ from gupb.controller.batman.rl.trainer import Trainer
 from gupb.controller.batman.knowledge.knowledge import Knowledge
 from gupb.controller.batman.utils.observer import Observer, Observable
 from gupb.model.characters import Action, ChampionKnowledge, Tabard
-from gupb.model.profiling import profile
 
 
 class BatmanController(controller.Controller, Observer[Action], Observable[Knowledge]):
@@ -22,7 +21,6 @@ class BatmanController(controller.Controller, Observer[Action], Observable[Knowl
 
         self._trainer = Trainer(self, "./gupb/controller/batman/algo/resources/algo")
 
-    @profile
     def decide(self, knowledge: ChampionKnowledge) -> Action:
         assert (
             self._knowledge is not None

@@ -4,7 +4,7 @@ from gupb.controller import Controller
 from gupb.controller.forrest_gump.strategies import *
 from gupb.controller.forrest_gump.utils import CharacterInfo, manhattan_distance_to
 from gupb.model import arenas, characters, coordinates
-from gupb.model.profiling import profile
+
 
 class ForrestGumpController(Controller):
     def __init__(self, first_name: str) -> None:
@@ -28,7 +28,6 @@ class ForrestGumpController(Controller):
     def __hash__(self) -> int:
         return hash(self.first_name)
 
-    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         character_info = CharacterInfo(
             position=knowledge.position,
@@ -88,7 +87,7 @@ class ForrestGumpController(Controller):
             Explore(arena_description, max_age=20, no_alive=4, defend_distance=7),
             GrabPotion(arena_description, max_distance=10),
             GrabWeapon(arena_description, max_distance=7),
-            MCTS(arena_description, enter_distance=8, exit_distance=11, iterations=1800, c=100., max_depth=10),
+            MCTS(arena_description, enter_distance=8, exit_distance=11, iterations=900, c=100., max_depth=10),
             Run(arena_description, close_distance=5, far_distance=7, distance_to_menhir=5)
         ]
 

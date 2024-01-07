@@ -11,8 +11,6 @@ from gupb.model import coordinates
 from gupb.model import weapons
 from gupb.model.coordinates import Coords
 from gupb.model.weapons import Knife, Axe, Bow, Sword, Amulet
-from gupb.model.profiling import profile
-
 
 """
 stara lekko ulepszona konfig
@@ -61,7 +59,6 @@ class CynamonkaController(controller.Controller):
     def __hash__(self) -> int:
         return hash(self.first_name)
 
-    @profile
     def decide(self, knowledge: characters.ChampionKnowledge) -> characters.Action:
         try:
             
@@ -131,9 +128,6 @@ class CynamonkaController(controller.Controller):
                     self.times_in_row_amulet = 0
                     return self.go_randomly()
         except Exception as e:
-            # Handle exceptions or errors here
-            #traceback.print_exc()
-            #print(f"An error occurred: {e}")
             return self.go_randomly()
 
 
