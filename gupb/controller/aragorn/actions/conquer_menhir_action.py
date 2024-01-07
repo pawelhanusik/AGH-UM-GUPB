@@ -136,7 +136,7 @@ class ConquerMenhirAction:
                 if menhirPos in rangeCells:
                     # attack menhir
                     attackAction = AttackAction()
-                    return attackAction.perform()
+                    return attackAction.perform(memory)
                 else:
                     # rotate to reach menhir
                     rangeCellsLeft  = currentWeapon.cut_positions(memory.map.terrain, memory.position, memory.facing.turn_left())
